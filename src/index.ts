@@ -2,10 +2,11 @@ import Express from "express";
 import { json, urlencoded } from "body-parser";
 import "reflect-metadata";
 import cors from "cors";
-
+import { createConnection } from "typeorm";
 import dotenv from "dotenv";
 dotenv.config();
-console.log(process.env.PORT);
+
+createConnection("default");
 
 const app: Express.Express = Express();
 app.use(cors({ credentials: true, origin: true }));

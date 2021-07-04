@@ -5,7 +5,6 @@ import cors from "cors";
 
 import dotenv from "dotenv";
 dotenv.config();
-
 console.log(process.env.PORT);
 
 const app: Express.Express = Express();
@@ -20,7 +19,6 @@ app.use(test);
 app.get("/", (req: Express.Request, res: Express.Response) =>
   res.json({
     msg: "hogehoge",
-
     status: 200,
   })
 );

@@ -56,4 +56,21 @@ export class UserContoroller {
     await Utils.findAllUsers();
     con.close();
   }
+  async getUserDetail(
+    req: Express.Request
+    // res: Express.Response
+    // next: Express.NextFunction
+  ): Promise<void> {
+    const con = await createConnection("default");
+    // TODO: レスポンスと一緒に返す
+    const userId = req.body.id as number;
+    try {
+      const result = await Utils.findUserAndTodosByUserId(userId);
+      console.log("result");
+      console.log(result);
+    } catch (error) {
+      console.log(error.message);
+    }
+    con.close();
+  }
 }

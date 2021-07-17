@@ -49,3 +49,14 @@ export async function findAllUsers(): Promise<IUser[]> {
   });
   return result;
 }
+
+/**
+ * userIdにマッチするUser情報と、Userに紐づくTodoを取得します
+ * @param userId
+ * @returns
+ */
+export async function findUserAndTodosByUserId(id: number): Promise<User | undefined> {
+  const repository = getRepository(User);
+  const result = await repository.findOne({ relations: ["todos"], where: { id: id } });
+  return result;
+}

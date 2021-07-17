@@ -14,6 +14,18 @@ router.get(
   }
 );
 
+// relation情報取得テスト
+router.post(
+  "/user_detail",
+  async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+    await new UserContoroller().getUserDetail(req);
+    res.json({
+      msg: "ok",
+      status: 200,
+    });
+  }
+);
+
 router.post(
   "/user/create",
   async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {

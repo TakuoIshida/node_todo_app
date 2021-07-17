@@ -14,7 +14,7 @@ export class UserContoroller {
     try {
       const newUser = {
         name: req.body.name,
-        todoList: req.body.todos,
+        todos: req.body.todos,
       };
       await Utils.createUser(newUser);
     } catch (error) {
@@ -44,7 +44,7 @@ export class UserContoroller {
 
   private setUserContent(req: Express.Request, findedUser: IUser): void {
     findedUser.name = req.body.name;
-    findedUser.todoList = req.body.todoList;
+    findedUser.todos = req.body.todos;
   }
 
   async getUsers(

@@ -25,7 +25,6 @@ export class Todo extends BaseEntity implements ITodo {
   context?: string;
 
   @ManyToOne(type => User, user => user.todos)
-  @JoinColumn({ name: "userId" })
   user!: User;
 
   @CreateDateColumn()

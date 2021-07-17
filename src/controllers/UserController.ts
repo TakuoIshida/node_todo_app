@@ -2,6 +2,7 @@ import Express from "express";
 import * as Utils from "../utils/user";
 import { createConnection } from "typeorm";
 import { IUser } from "../contracts/entity/IUser";
+import { ITodo } from "../contracts/entity/ITodo";
 
 export class UserContoroller {
   async createUser(
@@ -42,15 +43,14 @@ export class UserContoroller {
   }
 
   private setUserContent(req: Express.Request, findedUser: IUser): void {
-    findedUser.name = req.body.name;
-    findedUser.todos = req.body.todos;
+    findedUser.name = req.body.name as string;
+    findedUser.todos = req.body.todos as ITodo[];
   }
 
-  async getUsers(
-    req: Express.Request
-    // res: Express.Response
-    // next: Express.NextFunction
-  ): Promise<void> {
+  async getUsers(): // req: Express.Request
+  // res: Express.Response
+  // next: Express.NextFunction
+  Promise<void> {
     const con = await createConnection("default");
     // TODO: レスポンスと一緒に返す
     await Utils.findAllUsers();

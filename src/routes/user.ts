@@ -15,7 +15,7 @@ const updateValidationRules = [
 router.get(
   "/users",
   async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
-    await new UserContoroller().getUsers(req);
+    await new UserContoroller().getUsers();
     res.json({
       msg: "ok",
       status: 200,
@@ -27,6 +27,10 @@ router.get(
 router.post(
   "/user_detail",
   async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     await new UserContoroller().getUserDetail(req);
     res.json({
       msg: "ok",
@@ -39,6 +43,10 @@ router.post(
   "/user/create",
   createValidationRules,
   async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     await new UserContoroller().createUser(req);
     res.json({
       msg: "ok",

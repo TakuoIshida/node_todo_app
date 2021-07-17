@@ -20,7 +20,7 @@ const updateValidationRules = [
 router.get(
   "/todos",
   async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
-    await new TodoController().getTodos(req);
+    await new TodoController().getTodos();
     res.json({
       msg: "ok",
       status: 200,
@@ -32,6 +32,12 @@ router.post(
   "/todo/create",
   createValidationRules,
   async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+    const errors = validationResult(req);
+    console.log(errors);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     await new TodoController().createTodo(req);
     res.json({
       msg: "ok",
@@ -43,6 +49,10 @@ router.post(
   "/todo/update",
   updateValidationRules,
   async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     // TODO: OK, NGレスポンスの共通関数作成
     await new TodoController().updateTodo(req);
     res.json({

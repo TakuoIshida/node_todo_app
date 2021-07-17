@@ -1,0 +1,18 @@
+version: '3.7'
+services: 
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    env_file: ./.env
+    ports: 
+      - "${DB_PORT}:${DB_PORT}"
+    command: --port ${DB_PORT}
+    environment:
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_ROOT_PASSWORD: "${DB_PASS}"
+    volumes: 
+      # 
+      # 初期コマンドが必要な場合、init内に、hogehoge.sql, or foo.shをりえて実行できる
+      # - ./mysql/init/:/docker-entrypoint-initdb.d
+      # 永続化する時にマウントするDIR
+      - ./mysql/data:/var/lib/mysql

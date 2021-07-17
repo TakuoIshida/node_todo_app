@@ -50,10 +50,7 @@ export class TodoController {
     findedTodo.context = req.body.context as string;
   }
 
-  async getTodos(): // req: Express.Request
-  // res: Express.Response
-  // next: Express.NextFunction
-  Promise<void> {
+  async getTodos(): Promise<void> {
     const con = await createConnection("default");
     const findedTodos = await Utils.findAllTodos();
     console.log(findedTodos);

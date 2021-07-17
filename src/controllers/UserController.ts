@@ -47,10 +47,7 @@ export class UserContoroller {
     findedUser.todos = req.body.todos as ITodo[];
   }
 
-  async getUsers(): // req: Express.Request
-  // res: Express.Response
-  // next: Express.NextFunction
-  Promise<void> {
+  async getUsers(): Promise<void> {
     const con = await createConnection("default");
     // TODO: レスポンスと一緒に返す
     await Utils.findAllUsers();

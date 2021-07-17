@@ -15,8 +15,7 @@ export class UserContoroller {
         name: req.body.name,
         todoList: req.body.todos,
       };
-      const result = await Utils.createUser(newUser);
-      console.log(result);
+      await Utils.createUser(newUser);
     } catch (error) {
       console.log(error.message);
     }
@@ -32,9 +31,6 @@ export class UserContoroller {
     const con = await createConnection("default");
 
     const finedUser = await Utils.findById(userId);
-    console.log("finedUser");
-    console.log(finedUser);
-
     if (!finedUser) throw new Error("User not found");
     try {
       const newUser = {
@@ -42,12 +38,21 @@ export class UserContoroller {
         name: req.body.name,
         todoList: req.body.todos,
       };
-      const result = await Utils.updateUser(newUser);
-      console.log(result);
-      con.close();
+      await Utils.updateUser(newUser);
     } catch (error) {
       console.log(error.message);
     }
+    con.close();
+  }
+
+  async getUsers(
+    req: Express.Request
+    // res: Express.Response
+    // next: Express.NextFunction
+  ): Promise<void> {
+    const con = await createConnection("default");
+    const finedUsers = await Utils.findAllUsers();
+    if (!finedUsers) throw new Error("User not found");
     con.close();
   }
 }

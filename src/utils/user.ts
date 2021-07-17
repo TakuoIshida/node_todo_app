@@ -37,3 +37,13 @@ export async function findById(id: number): Promise<IUser | undefined> {
   const result = await repository.findOne(id);
   return result;
 }
+
+/**
+ * User全て取得します。
+ * @returns
+ */
+export async function findAllUsers(): Promise<IUser[]> {
+  const repository = getRepository(User);
+  const result = await repository.find();
+  return result;
+}

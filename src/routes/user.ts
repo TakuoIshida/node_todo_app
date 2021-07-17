@@ -5,28 +5,23 @@ const router = Express.Router();
 router.post(
   "/save/user",
   async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
-    // TODO: userを新規保存する
     const user = new UserContoroller();
-    await user.saveUser(req);
+    await user.createUser(req);
     res.json({
       msg: "ok",
       status: 200,
-      data: {
-        hello: "save user",
-      },
     });
   }
 );
+
 router.post(
   "/update/user",
-  (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
-    // TODO: userを更新する
+  async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+    const user = new UserContoroller();
+    await user.updateUser(req);
     res.json({
       msg: "ok",
       status: 200,
-      data: {
-        hello: "update user",
-      },
     });
   }
 );

@@ -9,9 +9,6 @@ router.post(
     res.json({
       msg: "ok",
       status: 200,
-      data: {
-        hello: "save todo",
-      },
     });
   }
 );
@@ -19,12 +16,10 @@ router.post(
   "/update/todo",
   (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
     // TODO: todoを更新する
+    // TODO: OK, NGレスポンスの共通関数作成
     res.json({
       msg: "ok",
       status: 200,
-      data: {
-        hello: "update todo",
-      },
     });
   }
 );

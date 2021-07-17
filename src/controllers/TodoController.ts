@@ -46,8 +46,8 @@ export class TodoController {
   }
 
   private setTodoContent(req: Express.Request, findedTodo: ITodo): void {
-    findedTodo.title = req.body.title;
-    findedTodo.context = req.body.context;
+    findedTodo.title = req.body.title as string;
+    findedTodo.context = req.body.context as string;
   }
 
   async getTodos(

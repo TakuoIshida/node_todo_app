@@ -27,7 +27,7 @@ export class UserContoroller {
     // res: Express.Response
     // next: Express.NextFunction
   ): Promise<void> {
-    const userId = Number(req.body.id);
+    const userId = req.body.id as number;
     const con = await createConnection("default");
 
     const findedUser = await Utils.findById(userId);
@@ -74,3 +74,9 @@ export class UserContoroller {
     con.close();
   }
 }
+
+// レスポンス共通化
+// エラーハンドリング 共通化
+// クリーンアーキテクチャーの学習
+// Factory Strategyパターン復習
+// インフラの初期設定・移行作業

@@ -2,11 +2,8 @@ import Express from "express";
 import { json, urlencoded } from "body-parser";
 import "reflect-metadata";
 import cors from "cors";
-import { createConnection } from "typeorm";
 import dotenv from "dotenv";
 dotenv.config();
-
-createConnection("default");
 
 const app: Express.Express = Express();
 app.use(cors({ credentials: true, origin: true }));
@@ -17,6 +14,10 @@ app.use(urlencoded({ extended: true }));
 const port = 3000;
 import test from "./routes/test";
 app.use(test);
+import todo from "./routes/todo";
+app.use(todo);
+import user from "./routes/user";
+app.use(user);
 app.get("/", (req: Express.Request, res: Express.Response) =>
   res.json({
     msg: "hogehoge",

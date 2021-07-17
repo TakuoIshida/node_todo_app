@@ -1,11 +1,13 @@
 import Express from "express";
-
+import { UserContoroller } from "../controllers/UserController";
 const router = Express.Router();
 
 router.post(
   "/save/user",
-  (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+  async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
     // TODO: userを新規保存する
+    const user = new UserContoroller();
+    await user.saveUser(req);
     res.json({
       msg: "ok",
       status: 200,

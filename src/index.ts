@@ -11,7 +11,6 @@ app.use(json());
 
 app.use(urlencoded({ extended: true }));
 
-const port = 3000;
 import test from "./routes/test";
 app.use(test);
 import todo from "./routes/todo";
@@ -25,6 +24,6 @@ app.get("/", (req: Express.Request, res: Express.Response) =>
   })
 );
 
-app.listen(3000, () => {
-  console.log(`Access to http://localhost:${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Access to http://localhost:${process.env.PORT}`);
 });

@@ -1,28 +1,19 @@
 import Express from "express";
-import { User } from "../entity/user";
-
-import { createConnection } from "typeorm";
+import * as Utils from "../utils/user";
 export class UserContoroller {
-  async saveUser(
+  async createUser(
     req: Express.Request
     // res: Express.Response
     // next: Express.NextFunction
   ): Promise<void> {
     try {
-      const con = await createConnection();
-      const repository = con.getRepository(User);
-      console.log("connectionOptions");
-      console.log(repository);
-      const user = repository.create({
-        name: "name",
-        todos: [],
-      });
-      // const user = repository.create({
-      //   name: req.body.name,
-      //   todos: req.body.todos,
-      // });
-      await repository.save(user);
-      await con.close();
+      const newUser = {
+        name: req.body.name,
+        todoList: req.body.todos,
+      };
+      const result = await Utils.createUser(newUser);
+      console.log(result);
+      // await con.close();
     } catch (error) {
       console.log(error.message);
     }

@@ -39,11 +39,13 @@ export async function findById(id: number): Promise<IUser | undefined> {
 }
 
 /**
- * User全て取得します。
+ * Userを10件まで取得します。
  * @returns
  */
 export async function findAllUsers(): Promise<IUser[]> {
   const repository = getRepository(User);
-  const result = await repository.find();
+  const result = await repository.find({
+    take: 10,
+  });
   return result;
 }

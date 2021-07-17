@@ -1,6 +1,7 @@
 import Express from "express";
 import * as Utils from "../utils/user";
 import { createConnection } from "typeorm";
+import { IUser } from "../contracts/entity/IUser";
 
 export class UserContoroller {
   async createUser(
@@ -30,19 +31,20 @@ export class UserContoroller {
     const userId = Number(req.body.id);
     const con = await createConnection("default");
 
-    const finedUser = await Utils.findById(userId);
-    if (!finedUser) throw new Error("User not found");
+    const findedUser = await Utils.findById(userId);
+    if (!findedUser) throw new Error("User not found");
     try {
-      const newUser = {
-        id: finedUser.id,
-        name: req.body.name,
-        todoList: req.body.todos,
-      };
-      await Utils.updateUser(newUser);
+      this.setUserContent(req, findedUser);
+      await Utils.updateUser(findedUser);
     } catch (error) {
       console.log(error.message);
     }
     con.close();
+  }
+
+  private setUserContent(req: Express.Request, findedUser: IUser): void {
+    findedUser.name = req.body.name;
+    findedUser.todoList = req.body.todoList;
   }
 
   async getUsers(
@@ -51,8 +53,8 @@ export class UserContoroller {
     // next: Express.NextFunction
   ): Promise<void> {
     const con = await createConnection("default");
-    const finedUsers = await Utils.findAllUsers();
-    if (!finedUsers) throw new Error("User not found");
+    // TODO: レスポンスと一緒に返す
+    await Utils.findAllUsers();
     con.close();
   }
 }

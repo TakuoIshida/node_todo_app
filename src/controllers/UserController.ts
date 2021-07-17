@@ -3,11 +3,12 @@ import * as Utils from "../utils/user";
 import { createConnection } from "typeorm";
 import { IUser } from "../contracts/entity/IUser";
 import { ITodo } from "../contracts/entity/ITodo";
+import { ErrorCode } from "../constants/ErrorCode";
 
 export class UserContoroller {
   async createUser(
-    req: Express.Request
-    // res: Express.Response
+    req: Express.Request,
+    res: Express.Response
     // next: Express.NextFunction
   ): Promise<void> {
     // DBのコネクション・クローズのコードがメインの処理に依存する
@@ -17,6 +18,7 @@ export class UserContoroller {
         name: String(req.body.name),
       };
       await Utils.createUser(newUser);
+      res.ok();
     } catch (error) {
       console.log(error.message);
     }
@@ -24,18 +26,19 @@ export class UserContoroller {
   }
 
   async updateUser(
-    req: Express.Request
-    // res: Express.Response
+    req: Express.Request,
+    res: Express.Response
     // next: Express.NextFunction
   ): Promise<void> {
     const userId = req.body.id as number;
     const con = await createConnection("default");
 
     const findedUser = await Utils.findById(userId);
-    if (!findedUser) throw new Error("User not found");
+    if (!findedUser) return res.ng(ErrorCode.UserNotFoundError);
     try {
       this.setUserContent(req, findedUser);
       await Utils.updateUser(findedUser);
+      res.ok();
     } catch (error) {
       console.log(error.message);
     }
@@ -47,33 +50,32 @@ export class UserContoroller {
     findedUser.todos = req.body.todos as ITodo[];
   }
 
-  async getUsers(): Promise<void> {
+  async getUsers(req: Express.Request, res: Express.Response): Promise<void> {
     const con = await createConnection("default");
-    // TODO: レスポンスと一緒に返す
-    await Utils.findAllUsers();
+    try {
+      const users = await Utils.findAllUsers();
+      if (!users) return res.ng(ErrorCode.UserNotFoundError);
+      res.ok({ result: users });
+    } catch (error) {
+      console.log(error.message);
+    }
     con.close();
   }
+
   async getUserDetail(
-    req: Express.Request
-    // res: Express.Response
+    req: Express.Request,
+    res: Express.Response
     // next: Express.NextFunction
   ): Promise<void> {
     const con = await createConnection("default");
-    // TODO: レスポンスと一緒に返す
     const userId = req.body.id as number;
     try {
-      const result = await Utils.findUserAndTodosByUserId(userId);
-      console.log("result");
-      console.log(result);
+      const userDetail = await Utils.findUserAndTodosByUserId(userId);
+      if (!userDetail) return res.ng(ErrorCode.UserNotFoundError);
+      res.ok({ result: userDetail });
     } catch (error) {
       console.log(error.message);
     }
     con.close();
   }
 }
-
-// レスポンス共通化
-// エラーハンドリング 共通化
-// クリーンアーキテクチャーの学習
-// Factory Strategyパターン復習
-// インフラの初期設定・移行作業

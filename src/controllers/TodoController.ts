@@ -2,11 +2,12 @@ import Express from "express";
 import * as Utils from "../utils/todo";
 import { createConnection } from "typeorm";
 import { ITodo } from "../contracts/entity/ITodo";
+import { ErrorCode } from "../constants/ErrorCode";
 
 export class TodoController {
   async createTodo(
-    req: Express.Request
-    // res: Express.Response
+    req: Express.Request,
+    res: Express.Response
     // next: Express.NextFunction
   ): Promise<void> {
     // DBのコネクション・クローズのコードがメインの処理に依存する
@@ -17,8 +18,8 @@ export class TodoController {
         title: req.body.title as string,
         context: req.body.context as string,
       };
-      const result = await Utils.createTodo(newTodo);
-      console.log(result);
+      await Utils.createTodo(newTodo);
+      res.ok();
     } catch (error) {
       console.log(error.message);
     }
@@ -26,19 +27,18 @@ export class TodoController {
   }
 
   async updateTodo(
-    req: Express.Request
-    // res: Express.Response
+    req: Express.Request,
+    res: Express.Response
     // next: Express.NextFunction
   ): Promise<void> {
     const userId = Number(req.body.id);
     const con = await createConnection("default");
-
-    const findedTodo = await Utils.findByUserId(userId);
-    if (!findedTodo) throw new Error("User not found");
     try {
+      const findedTodo = await Utils.findByUserId(userId);
+      if (!findedTodo) return res.ng(ErrorCode.TodoNotFoundError);
       this.setTodoContent(req, findedTodo);
-      const result = await Utils.updateTodo(findedTodo);
-      console.log(result);
+      await Utils.updateTodo(findedTodo);
+      res.ok();
     } catch (error) {
       console.log(error.message);
     }
@@ -50,10 +50,14 @@ export class TodoController {
     findedTodo.context = req.body.context as string;
   }
 
-  async getTodos(): Promise<void> {
+  async getTodos(res: Express.Response): Promise<void> {
     const con = await createConnection("default");
-    const findedTodos = await Utils.findAllTodos();
-    console.log(findedTodos);
+    try {
+      const findedTodos = await Utils.findAllTodos();
+      res.ok({ result: findedTodos });
+    } catch (error) {
+      console.log(error.message);
+    }
     con.close();
   }
 }

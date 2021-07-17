@@ -20,11 +20,7 @@ const updateValidationRules = [
 router.get(
   "/todos",
   async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
-    await new TodoController().getTodos();
-    res.json({
-      msg: "ok",
-      status: 200,
-    });
+    await new TodoController().getTodos(res);
   }
 );
 
@@ -33,16 +29,10 @@ router.post(
   createValidationRules,
   async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
     const errors = validationResult(req);
-    console.log(errors);
-
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    await new TodoController().createTodo(req);
-    res.json({
-      msg: "ok",
-      status: 200,
-    });
+    await new TodoController().createTodo(req, res);
   }
 );
 router.post(
@@ -53,12 +43,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    // TODO: OK, NGレスポンスの共通関数作成
-    await new TodoController().updateTodo(req);
-    res.json({
-      msg: "ok",
-      status: 200,
-    });
+    await new TodoController().updateTodo(req, res);
   }
 );
 

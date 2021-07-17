@@ -8,6 +8,7 @@ export class UserContoroller {
     // res: Express.Response
     // next: Express.NextFunction
   ): Promise<void> {
+    // DBのコネクション・クローズのコードがメインの処理に依存する
     const con = await createConnection("default");
     try {
       const newUser = {

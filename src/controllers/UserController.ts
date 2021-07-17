@@ -13,8 +13,7 @@ export class UserContoroller {
     const con = await createConnection("default");
     try {
       const newUser = {
-        name: req.body.name,
-        todos: req.body.todos,
+        name: String(req.body.name),
       };
       await Utils.createUser(newUser);
     } catch (error) {

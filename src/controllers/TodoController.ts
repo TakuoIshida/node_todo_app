@@ -13,9 +13,9 @@ export class TodoController {
     const con = await createConnection("default");
     try {
       const newTodo = {
-        userId: req.body.userId,
-        title: req.body.title,
-        context: req.body.context,
+        userId: req.body.userId as number,
+        title: req.body.title as string,
+        context: req.body.context as string,
       };
       const result = await Utils.createTodo(newTodo);
       console.log(result);

@@ -1,10 +1,9 @@
 # 言語等
-Node.js Express TypeScript TypeORM 
-設計：CleanArchitecture
+Node.js Express TypeScript TypeORM Docker
 
 ## 概要
 Node.jsの学習用に、上記言語・FW・middlewareで 作成しました。
-UserごとのTODOアプリを想定した簡便なアプリケーションをクリーンアーキテクチャーで実装しています。
+UserごとのTODOアプリを想定した簡便なアプリケーションを実装しています。
 
 ## 目的
 ・Node.js Expressの基本的な実装力・設計力向上

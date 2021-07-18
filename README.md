@@ -45,10 +45,6 @@ DB_USER=root
 DB_PASS=password
 DB_NAME=todo-app
 ```
-mysql/dataディレクトリをRootに作成してください
-```
-mkdir  -p mysql/data
-```
 
 コンテナーの起動・migration
 ```

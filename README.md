@@ -26,7 +26,7 @@ ESLint、prettireの設定済みです。
 前提：Docker、Node.jsは各自Installしていること。
 
 ```
-git clone https://github.com/TakuoIshida/node_clean_architecture
+git clone https://github.com/TakuoIshida/node_todo_app.git
 ```
 
 パッケージのinstall

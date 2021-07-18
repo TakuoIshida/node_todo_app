@@ -57,4 +57,10 @@ Node.jsサーバーの起動
 npm run dev
 ```
 
-http://localhost:3000 にアクセスできるようになります。
+http://localhost:3000/todos  にアクセス
+```
+{
+"result": []
+}
+```
+とレスポンスが返ったらOK。
